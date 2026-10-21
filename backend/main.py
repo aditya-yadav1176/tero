@@ -113,6 +113,16 @@ class OledMessageResponse(BaseModel):
     source: str
 
 
+@app.get("/")
+async def root():
+    return {
+        "project": "Tero",
+        "description": "IoT-Based Real-Time Handwriting Recognition and OLED Display API",
+        "health": "/health",
+        "docs": "/docs"
+    }
+
+
 @app.get("/health", response_model=HealthResponse)
 async def get_health():
     """
