@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to validate handwriting recognition attempt documents
+    function isValidAttempt(data) {
+      return data.keys().hasAll(['createdAt', 'predictedText', 'sampleStatus', 'modelVersion', 'timestamp'])
+        && data.predictedText is string
+        && data.predictedText.size() <= 128
+        && data.sampleStatus in ['verified', 'corrected', 'unreviewed']
+        && data.timestamp is number
+        && (data.isCorrect == null || data.isCorrect is bool)
+        && (data.correctedText == null || data.correctedText is string);
+    }
+
+    // Rules for recognition attempts collection
+    match /recognition_attempts/{attemptId} {
+      // Protect user data: Only authenticated users can read, create, update, or delete records
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && isValidAttempt(request.resource.data);
+      allow update: if request.auth != null && isValidAttempt(request.resource.data);
+      allow delete: if request.auth != null;
+    }
+
+    // Default deny all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

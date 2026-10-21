@@ -1,0 +1,26 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Handwriting samples directory
+    match /handwriting_samples/{imageId} {
+      // Allow public read for displaying thumbnails in History and Training
+      allow read: if true;
+
+      // Allow uploads if:
+      // 1. File size is under 5MB
+      // 2. Content type is an image (PNG, JPEG, WebP)
+      allow write: if request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/(png|jpeg|webp)');
+
+      // Allow deletion when removing history records
+      allow delete: if true;
+    }
+
+    // Default deny for all other paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
