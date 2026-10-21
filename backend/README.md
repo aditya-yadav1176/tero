@@ -3,9 +3,12 @@ title: Tero Handwriting API
 emoji: ✍️
 colorFrom: blue
 colorTo: indigo
-sdk: docker
-app_port: 7860
+sdk: gradio
+sdk_version: 5.20.0
+app_file: app.py
+pinned: false
+license: mit
 ---
 
-# Tero IoT Handwriting Recognition API
-FastAPI backend with Microsoft TrOCR for real-time handwriting recognition.
+# Tero Handwriting Recognition API
+FastAPI + Gradio ML Backend.
