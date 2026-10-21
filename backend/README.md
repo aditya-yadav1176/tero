@@ -1,9 +1,11 @@
-# Hugging Face Spaces App Configuration
-title: Tero Handwriting Recognition API
+---
+title: Tero Handwriting API
 emoji: ✍️
 colorFrom: blue
 colorTo: indigo
 sdk: docker
 app_port: 7860
-pinned: false
-license: mit
+---
+
+# Tero IoT Handwriting Recognition API
+FastAPI backend with Microsoft TrOCR for real-time handwriting recognition.
